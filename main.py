@@ -56,19 +56,19 @@ def generate_wine_cards(wine_data):
             "grape_variety": wine["Сорт"],
             "wine_price": wine["Цена"],
             "image_name": wine["Картинка"],
-            "name_category": wine["Категория"],
+            "category_name": wine["Категория"],
             "discount": wine["Акция"]
         }
         for wine in wine_data
     ]
 
 
-def split_wine_categories(data):
-    grouped = defaultdict(list)
-    for item in data:
-        category = item["name_category"]
-        grouped[category].append(item)
-    return dict(grouped)
+def split_wine_categories(wine_cards):
+    categorized_wines = defaultdict(list)
+    for wine in wine_cards:
+        category = wine["category_name"]
+        categorized_wines[category].append(wine)
+    return categorized_wines
 
 
 def main():
