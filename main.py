@@ -55,7 +55,7 @@ def main():
     age = company_age()
     age_word = generate_age_word(age)
 
-    wine_data = read_excel("wine3.xlsx", "Лист1")
+    wine_data = read_excel("wine_assortment.xlsx", "Лист1")
     wine_cards = generate_wine_cards(wine_data)
     categorized_wines = split_wine_categories(wine_cards)
 
