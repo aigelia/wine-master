@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pandas
 
 
-def company_age():
+def count_company_age():
     now = datetime.now().year
     company_found = 1920
     age = now - company_found
@@ -52,7 +52,7 @@ def split_wine_categories(data):
 
 
 def main():
-    age = company_age()
+    age = count_company_age()
     age_word = generate_age_word(age)
 
     wine_data = read_excel("wine_assortment.xlsx", "Лист1")
