@@ -127,16 +127,12 @@
                   {% endif %}
                   <div>
                     <h3 class="heading mt-3 mb-3 text-dark">{{ wine_card.wine_name }}</h3>
-                    {% if not wine_card.grape_variety %}
-                      <p>
-                        <span class="price">{{ wine_card.wine_price }} р.</span>
-                      </p>
-                    {% else %}
-                      <p>
+                    <p>
+                      {% if wine_card.grape_variety %}
                         Сорт винограда — {{ wine_card.grape_variety }}<br/>
-                        <span class="price">{{ wine_card.wine_price }} р.</span>
-                      </p>
-                    {% endif %}
+                      {% endif %}
+                      <span class="price">{{ wine_card.wine_price }} р.</span>
+                    </p>
                   </div>
                 </div>
               </div>
