@@ -1,9 +1,29 @@
+import argparse
 from collections import defaultdict
 from datetime import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pandas
+
+
+def create_parser():
+    parser = argparse.ArgumentParser(
+        description="Скрипт для шаблонизации лендинга  «Новое русское вино»"
+    )
+    parser.add_argument(
+        "--file_name",
+        type=str,
+        default="wine_assortment.xlsx",
+        help="Название .xlsx-файла с данными о товарах"
+    )
+    parser.add_argument(
+        "--sheet_name",
+        type=str,
+        default="Лист1",
+        help="Название листа в .xlsx-файле"
+    )
+    return parser
 
 
 def count_company_age():
@@ -29,7 +49,7 @@ def read_excel(file_name, sheet_name):
     return excel_data.to_dict(orient="records")
 
 
-def generate_wine_cards(wine_list):
+def generate_wine_cards(wine_data):
     return [
         {
             "wine_name": wine["Название"],
@@ -39,7 +59,7 @@ def generate_wine_cards(wine_list):
             "name_category": wine["Категория"],
             "discount": wine["Акция"]
         }
-        for wine in wine_list
+        for wine in wine_data
     ]
 
 
@@ -52,10 +72,13 @@ def split_wine_categories(data):
 
 
 def main():
+    parser = create_parser()
+    args = parser.parse_args()
+
     age = count_company_age()
     age_word = generate_age_word(age)
 
-    wine_data = read_excel("wine_assortment.xlsx", "Лист1")
+    wine_data = read_excel(args.file_name, args.sheet_name)
     wine_cards = generate_wine_cards(wine_data)
     categorized_wines = split_wine_categories(wine_cards)
 
@@ -74,8 +97,8 @@ def main():
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
-    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-    server.serve_forever()
+    # server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    # server.serve_forever()
 
 
 if __name__ == "__main__":
